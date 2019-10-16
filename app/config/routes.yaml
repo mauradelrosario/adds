@@ -1,6 +1,16 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-home:
+lbc__adds_list:
   path: /
   controller: App\Controller\HomeController::index
+  methods:  [GET]
+  options:
+    expose: true
+
+lbc__adds_add:
+  path: /add-add
+  controller:   App\Controller\HomeController::addAddAction
+  methods:  [POST]
+  options:
+    expose: true

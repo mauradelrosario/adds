@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Add;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,7 +66,10 @@ class HomeController
      * @param Request $request
      * @return Response
      */
-    public function addAddAction(Request $request) : Response {
+    public function addAddAction(Request $request) : Response
+    {
+
+        $add = new Add();
         return new Response();
     }
 }

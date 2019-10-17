@@ -53,8 +53,21 @@ class Category
      */
     private $adds;
 
-    public function __construct()
+    public function __construct(
+        $name,
+        $salary = null,
+        $contract = null,
+        $fuel = null,
+        $price = null,
+        $surface = null
+    )
     {
+        $this->setName($name);
+        $this->setSalary($salary);
+        $this->setContract($contract);
+        $this->setFuel($fuel);
+        $this->setPrice($price);
+        $this->setSurface($surface);
         $this->adds = new ArrayCollection();
     }
 

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AddRepository")
@@ -37,11 +38,6 @@ class Add
      * @ORM\ManyToMany(targetEntity="App\Entity\category", inversedBy="adds")
      */
     private $category_id;
-
-    public function __construct()
-    {
-        $this->category_id = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -108,5 +104,26 @@ class Add
         }
 
         return $this;
+    }
+
+    public function __construct($title, $description)
+    {
+        $this->title = $title;
+        $this->description = $description;
+        $this->created_at = new \DateTime('now', new \DateTimeZone('UTC'));
+        $this->category_id = new ArrayCollection();
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'publication' => $this->created_at,
+        ];
     }
 }

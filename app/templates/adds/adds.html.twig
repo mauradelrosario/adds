@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    {% include '__header.html.twig' %}
+{% endblock %}
+{% block body %}
+    <div class="jumbotron text-center">
+        <button class="primary-button">Place an Add</button>
+    </div>
+    {% if adds is defined %}
+        <div>
+            {% for add in adds.content %}
+                {% if add.type == "emploi" %}
+                    <div>
+                        <div class="add-row__tag">emploi</div>
+                    </div>
+                {% endif %}
+                {% if add.type == "automobile" %}
+                    <div>
+                        <div>automobile</div>
+                    </div>
+                {% endif %}
+                {% if add.type == "immobilier" %}
+                    <div>
+                        <div>immobilier</div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+
+{#display: inline-block;#}
+{#height: 16px;#}
+{#border-radius: 12px 12px 12px 12px;#}
+{#background: $color-blue;#}
+{#color: $color-off-white;#}
+{#padding-left: 8px;#}
+{#padding-right: 8px;#}
+{#font-size: 12px;#}
+{#line-height: 16px;#}

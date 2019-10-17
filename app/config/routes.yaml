@@ -3,7 +3,7 @@
 #    controller: App\Controller\DefaultController::index
 lbc__adds_list:
   path: /
-  controller: App\Controller\HomeController::index
+  controller: App\Controller\HomeController::getAllAdds
   methods:  [GET]
   options:
     expose: true

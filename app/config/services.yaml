@@ -29,3 +29,4 @@ services:
         tags: ['controller.service_arguments']
         arguments:
             $templating:         '@twig'
+            $formFactory:        '@form.factory'

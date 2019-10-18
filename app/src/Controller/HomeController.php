@@ -4,7 +4,9 @@ namespace App\Controller;
 
 
 use App\Entity\Add;
+use App\Form\AddType;
 use Symfony\Bundle\TwigBundle\TwigEngine;
+use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,9 +15,13 @@ class HomeController
     /** @var TwigEngine */
     private $templating;
 
-    public function __construct($templating)
+    /** @var FormFactory */
+    private $formFactory;
+
+    public function __construct($templating, $formFactory)
     {
         $this->templating = $templating;
+        $this->formFactory = $formFactory;
     }
 
     /**
@@ -66,10 +72,30 @@ class HomeController
      * @param Request $request
      * @return Response
      */
-    public function addAddAction(Request $request) : Response
+    public function createAddAction(Request $request) : Response
     {
-
+        $parameters = $request->request->get('');
         $add = new Add();
+        $errors = $this->submitForm($add, $parameters);
+
         return new Response();
+    }
+
+    /**
+     * @param  $add
+     * @param $parameters
+     * @return array
+     */
+    private function submitForm($add, $parameters)
+    {
+        $form = $this->formFactory->create(
+            AddType::class,
+            $add,
+            ['csrf_protection' => false]
+        );
+        $form->submit($parameters);
+        $form->isValid();
+
+        return $this->getErrorsForm($form);
     }
 }

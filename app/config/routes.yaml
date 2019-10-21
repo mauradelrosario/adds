@@ -8,7 +8,7 @@ lbc__adds_list:
   options:
     expose: true
 
-lbc__adds_add:
+lbc__create_add:
   path: /add-add
   controller:   App\Controller\HomeController::createAddAction
   methods:  [POST]

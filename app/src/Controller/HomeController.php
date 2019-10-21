@@ -5,13 +5,17 @@ namespace App\Controller;
 
 use App\Entity\Add;
 use App\Form\AddType;
+use Symfony\Bundle\FrameworkBundle\Controller\ControllerTrait;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\Form\FormFactory;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class HomeController
 {
+    use ControllerTrait;
+
     /** @var TwigEngine */
     private $templating;
 
@@ -28,7 +32,7 @@ class HomeController
      * @return Response
      * @throws \Twig\Error\Error
      */
-    public function getAllAdds() : Response {
+    public function getAllAdds(Request $request) : Response {
         $adds = [
             'title'  => 'adds',
             'header' => [
@@ -65,7 +69,14 @@ class HomeController
             ]
         ];
 
-        return new Response($this->templating->render('adds/adds.html.twig', ['adds' => $adds]));
+        $form = $this->formFactory->create(AddType::class, null, []);
+
+        $form->handleRequest($request);
+
+        return new Response($this->templating->render('adds/adds.html.twig', [
+            'adds' => $adds,
+            'form'  => $this->formFactory->create(AddType::class, null, [])->createView()
+        ]));
     }
 
     /**
@@ -75,12 +86,36 @@ class HomeController
     public function createAddAction(Request $request) : Response
     {
         $parameters = $request->request->get('');
-        $add = new Add();
+
+        if ($this->ensureFieldsAreNotEmpty($parameters)) {
+            return new JsonResponse('mandatory fields are missing', 403);
+        }
+
+        $add =  new Add(
+            $parameters['name'],
+            $parameters['description']
+        );
+
         $errors = $this->submitForm($add, $parameters);
 
         return new Response();
     }
 
+    public function ensureFieldsAreNotEmpty($parameters)
+    {
+        $fields = [
+            'name',
+            'description'
+        ];
+
+        foreach ($fields as $field) {
+            if (!array_key_exists($field, $parameters[$field])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
     /**
      * @param  $add
      * @param $parameters

@@ -5,7 +5,29 @@
 {% endblock %}
 {% block body %}
     <div class="jumbotron text-center">
-        <button href="{{ path('lbc__adds_add') }}" class="primary-button">Place an Add</button>
+        {{ form_start(form) }}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.title) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.description) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    {{ form_row(form.type) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_row(form.salary) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_row(form.contract) }}
+                </div>
+            </div>
+        </div>
+        <a href="{{ path('lbc__create_add') }}" class="primary-button">Place an Add</a>
     </div>
     {% if adds is defined %}
         <div>
